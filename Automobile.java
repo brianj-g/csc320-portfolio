@@ -7,6 +7,7 @@
 
 // BigDecimal will be used for any potential financial calculations
 import java.math.BigDecimal;
+import java.time.Year;
 
 public class Automobile {
    private String vin;
@@ -32,9 +33,25 @@ public class Automobile {
       this.make = make;
       this.model = model;
       this.color = color;
-      this.year = year;
-      this.mileage = mileage;
-      this.price = price;
+      // Perform basic validation for year. This could be varied based on the dealership's inventory focus.
+      if (year > 1970 && year <= Year.now().getValue() + 1) {
+         this.year = year;
+      } else {
+         throw new IllegalArgumentException("Invalid year: " + year);
+      }
+      // Ensure a zero or positive mileage is entered
+      if (mileage >= 0) {
+         this.mileage = mileage;
+      } else {
+         throw new IllegalArgumentException("Invalid mileage: " + mileage);
+      }
+      // Ensure a positive dollar amount is entered
+      if (price.compareTo(new BigDecimal(0)) == 1) {
+         this.price = price;
+      } else {
+         throw new IllegalArgumentException("Invalid price: " + price);
+      }
+
    }
 
    /**
