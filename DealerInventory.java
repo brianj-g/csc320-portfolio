@@ -35,7 +35,7 @@ public class DealerInventory {
       return null;
    }
    
-   // Method to remove an automobile from inventory (based on VIN()
+   // Method to remove an automobile from inventory (based on VIN)
    public boolean removeAutomobile(String vin) {
       try {
          int vinIndex = checkInventory(vin);
@@ -56,6 +56,53 @@ public class DealerInventory {
       return false;
    }
 
+   // Method to find a particular vehicle and return the Automobile object
+   public Automobile showAutomobile(String vin) {
+      try {
+         int vinIndex = checkInventory(vin);
+         
+         if (vinIndex >= 0) {
+            return dealerInventory.get(vinIndex);
+         }
+         else {
+            System.out.println("Automobile could not be found in inventory");
+         }
+      }
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not search automobile.");         
+      }
+      
+      return null;
+   }
+   
+   // Method to update a vehicle's *String* attributes
+   public Automobile updateAttribute(String vin, String attribute, String value) {
+      try {
+         int vinIndex = checkInventory(vin);
+         
+         if (vinIndex >= 0) {
+            switch(attribute.toLowerCase()) {
+               case "make" : dealerInventory.get(vinIndex).setMake(value);
+               // TODO: Finish each case for string attributes
+            }
+            return dealerInventory.get(vinIndex);
+         }
+      }
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not update automobile.");          
+      }
+      
+      return null;
+   }
+   
+   // TODO: Method (overload) to update a vehicle's numerical attributes
+   
+   // TODO: Method (overload) to update the vehicle's price
+   
+   // TODO: Method to print (to file) the dealer inventory
+   
    public static void main(String[] args) {
 
    }
