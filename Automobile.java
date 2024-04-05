@@ -111,7 +111,7 @@ public class Automobile {
     * Return the private vin field
     * @param vin
     */
-   public String getVin(String vin) {
+   public String getVin() {
       return this.vin;
    }
    
@@ -119,7 +119,7 @@ public class Automobile {
     * Return the private make field
     * @param make
     */
-   public String getMake(String make) {
+   public String getMake() {
       return this.make;
    }
    
@@ -127,7 +127,7 @@ public class Automobile {
     * Return the private model field 
     * @param model
     */
-   public String getModel(String model) {
+   public String getModel() {
       return this.model;
    }
    
@@ -135,7 +135,7 @@ public class Automobile {
     * Return the private color field
     * @param color
     */
-   public String getColor(String color) {
+   public String getColor() {
       return this.color;
    }
    
@@ -143,7 +143,7 @@ public class Automobile {
     * Return the private year field
     * @param year
     */
-   public int getYear(int year) {
+   public int getYear() {
       return this.year;
    }
    
@@ -151,7 +151,7 @@ public class Automobile {
     * Return the private mileage field
     * @param mileage
     */
-   public int getMileage(int mileage) {
+   public int getMileage() {
       return this.mileage;
    }
    
@@ -159,7 +159,7 @@ public class Automobile {
     * Return the private price field
     * @param price
     */
-   public BigDecimal getPrice(BigDecimal price) {
+   public BigDecimal getPrice() {
       return this.price;
    }
 
