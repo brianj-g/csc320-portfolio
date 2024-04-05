@@ -15,18 +15,25 @@ public class DealerInventory {
       return false;
    }
    /**
-    * Method to add a new automobile to the inventory
-    * @param vin
-    * @param make
-    * @param model
-    * @param color
-    * @param year
-    * @param mileage
-    * @param price
-    * @return
+    * Method to create a new automobile in the dealer inventory ArrayList
     */
    public Automobile addAutomobile(String vin, String make, String model, String color, int year, int mileage, BigDecimal price) {
-      
+      try {
+         if (!checkInventory(vin)) {
+            Automobile newAuto = new Automobile(vin, make, model, color, year, mileage, price);
+            dealerInventory.add(newAuto);
+            return newAuto;
+         }
+         else {
+            System.out.println("Automobile with VIN " + vin + " is already in the inventory.");
+         }
+      } 
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not add new automobile.");
+      }
+
+      return null;
    }
 
    public static void main(String[] args) {
