@@ -109,7 +109,6 @@ public class Automobile {
    
    /**
     * Return the private vin field
-    * @param vin
     */
    public String getVin() {
       return this.vin;
@@ -117,7 +116,6 @@ public class Automobile {
    
    /**
     * Return the private make field
-    * @param make
     */
    public String getMake() {
       return this.make;
@@ -125,7 +123,6 @@ public class Automobile {
    
    /**
     * Return the private model field 
-    * @param model
     */
    public String getModel() {
       return this.model;
@@ -133,7 +130,6 @@ public class Automobile {
    
    /**
     * Return the private color field
-    * @param color
     */
    public String getColor() {
       return this.color;
@@ -141,7 +137,6 @@ public class Automobile {
    
    /**
     * Return the private year field
-    * @param year
     */
    public int getYear() {
       return this.year;
@@ -149,7 +144,6 @@ public class Automobile {
    
    /**
     * Return the private mileage field
-    * @param mileage
     */
    public int getMileage() {
       return this.mileage;
@@ -157,24 +151,24 @@ public class Automobile {
    
    /**
     * Return the private price field
-    * @param price
     */
    public BigDecimal getPrice() {
       return this.price;
    }
 
    /**
-    * Print out the attributes of the object
+    * Return a String array represting the attributes of the object
     */
-   public void printAutomobile() {
-      System.out.println("VIN: " + vin);
-      System.out.println("Make: " + make);
-      System.out.println("Model: " + model);
-      System.out.println("Color: " + color);
-      System.out.println("Year: " + year);
-      System.out.println("Mileage: " + mileage);
-      System.out.println("Price: " + price);
+   public String[] listAutomobile() {
+      String[] attributes = new String[7];
+      attributes[0] = "VIN: " + this.vin;
+      attributes[1] = "Make: " + this.make;
+      attributes[2] = "Model: " + this.model;
+      attributes[3] = "Color: " + this.color;
+      attributes[4] = "Year: " + this.year;
+      attributes[5] = "Mileage: " + this.mileage;
+      attributes[6] = "Price: " + this.price;
+      
+      return attributes;
    }
-   
-   
 }
