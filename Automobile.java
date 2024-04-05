@@ -2,7 +2,6 @@
  * This class represents a basic automobile with information that may be used for identification, searching,
  * sorting, and listing of objects.
  * @author Brian Gunther
- * @
  * @version 1.0
  */
 
@@ -10,9 +9,6 @@
 import java.math.BigDecimal;
 
 public class Automobile {
-   /** 
-    * 
-    */
    private String vin;
    private String make;
    private String model;
@@ -20,7 +16,17 @@ public class Automobile {
    private int year;
    private int mileage;
    private BigDecimal price;
-
+   
+   /**
+    * Parameterized constructor
+    * @param vin
+    * @param make
+    * @param model
+    * @param color
+    * @param year
+    * @param mileage
+    * @param price
+    */
    public Automobile(String vin, String make, String model, String color, int year, int mileage, BigDecimal price){
       this.vin = vin;
       this.make = make;
@@ -31,6 +37,9 @@ public class Automobile {
       this.price = price;
    }
 
+   /**
+    * Default constructor
+    */
    public Automobile(){
       this.vin = "";
       this.make = "";
