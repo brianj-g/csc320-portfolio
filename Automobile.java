@@ -52,6 +52,7 @@ public class Automobile {
    
    /**
     * Set the private vin field to parameter value
+    * @param vin
     */
    public void setVin(String vin) {
       this.vin = vin;
@@ -59,6 +60,7 @@ public class Automobile {
    
    /**
     * Set the private make field to parameter value
+    * @param make
     */
    public void setMake(String make) {
       this.make = make;
@@ -66,6 +68,7 @@ public class Automobile {
    
    /**
     * Set the private model field to parameter value
+    * @param model
     */
    public void setModel(String model) {
       this.model = model;
@@ -74,6 +77,7 @@ public class Automobile {
    
    /**
     * Set the private color field to parameter value
+    * @param color
     */
    public void setColor(String color) {
       this.color = color;
@@ -81,6 +85,7 @@ public class Automobile {
    
    /**
     * Set the private year field to parameter value
+    * @param year
     */
    public void setYear(int year) {
       this.year = year;
@@ -88,6 +93,7 @@ public class Automobile {
    
    /**
     * Set the private mileage field to parameter value
+    * @param mileage
     */
    public void setMileage(int mileage) {
       this.mileage = mileage;
@@ -95,13 +101,15 @@ public class Automobile {
    
    /**
     * Set the private price field to parameter value
+    * @param price
     */
    public void setPrice(BigDecimal price) {
       this.price = price;
    }
    
    /**
-    *Return the private vin field
+    * Return the private vin field
+    * @param vin
     */
    public String getVin(String vin) {
       return this.vin;
@@ -109,6 +117,7 @@ public class Automobile {
    
    /**
     * Return the private make field
+    * @param make
     */
    public String getMake(String make) {
       return this.make;
@@ -116,14 +125,15 @@ public class Automobile {
    
    /**
     * Return the private model field 
+    * @param model
     */
    public String getModel(String model) {
       return this.model;
    }
    
-   
    /**
     * Return the private color field
+    * @param color
     */
    public String getColor(String color) {
       return this.color;
@@ -131,6 +141,7 @@ public class Automobile {
    
    /**
     * Return the private year field
+    * @param year
     */
    public int getYear(int year) {
       return this.year;
@@ -138,6 +149,7 @@ public class Automobile {
    
    /**
     * Return the private mileage field
+    * @param mileage
     */
    public int getMileage(int mileage) {
       return this.mileage;
@@ -145,6 +157,7 @@ public class Automobile {
    
    /**
     * Return the private price field
+    * @param price
     */
    public BigDecimal getPrice(BigDecimal price) {
       return this.price;
