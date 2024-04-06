@@ -2,6 +2,9 @@
 import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class DealerInventory {
    // Define a new ArrayList that will contain inventory objects of the Automobile class
@@ -191,10 +194,22 @@ public class DealerInventory {
          System.out.println(e.getMessage());
          System.out.println("ERROR: Could not retrieve automobile.");  
       }
-
    }
    
    // TODO: Method to print multiple objects (overload)
+   public void printAutomobile() {
+      String[] retrievedAuto;
+      
+      try {
+         int vinIndex = 0;
+        
+         }
+      }
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not retrieve automobile.");  
+      }
+   }
    
    public static void main(String[] args) {
       // FIXME: The following are unit tests and should be removed
