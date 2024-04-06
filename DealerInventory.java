@@ -75,8 +75,6 @@ public class DealerInventory {
          e.getMessage();
       }
       
-      
-      s.close();
       return addAutomobile(vin, make, model, color, year, mileage, price);
    }
    
@@ -209,22 +207,21 @@ public class DealerInventory {
       Scanner s = new Scanner(System.in);
       int selection;
       
-      System.out.println("Enter the number for the attribute to update:");
-      System.out.println("[1] Make");
-      System.out.println("[2] Model");
-      System.out.println("[3] Color");
-      System.out.println("[4] Year");
-      System.out.println("[5] Mileage");
-      System.out.println("[6] Price");
       
       try {
-         selection = s.nextInt();
-         
          int vinIndex = checkInventory(vin);
          
          if(vinIndex >= 0) {
+            System.out.println("Enter the number for the attribute to update:");
+            System.out.println("[1] Make");
+            System.out.println("[2] Model");
+            System.out.println("[3] Color");
+            System.out.println("[4] Year");
+            System.out.println("[5] Mileage");
+            System.out.println("[6] Price");
             System.out.println("Enter the new value: ");
-            Automobile currentAuto = dealerInventory.get(vinIndex);
+            
+            selection = s.nextInt();
             switch (selection) {
                case 1 :
                   String newMake = s.next();
@@ -266,15 +263,13 @@ public class DealerInventory {
                   }
                   break;
             }
-            
+            Automobile currentAuto = dealerInventory.get(vinIndex);
             return currentAuto;
          } else {
             System.out.println("VIN could not be located: " + vin);
          }
       } catch (Exception e){
          e.getMessage();
-      } finally {
-         s.close();
       }
       
       return null;
@@ -294,7 +289,7 @@ public class DealerInventory {
             } 
          }
          else {
-            System.out.println("Could not find VIN: " + vin);
+            System.out.println("\nCould not find VIN: " + vin);
          }
       } catch (Exception e) {
          System.out.println(e.getMessage());
@@ -335,83 +330,25 @@ public class DealerInventory {
       fileStream.close();
    }
    
-   public static void main(String[] args) throws IOException {
-      // FIXME: The following are unit tests and should be removed
-      // Begin Test data
-//      System.out.println("Testing parameterized constructor.");
-//      
-//      String vin = "1234ABCD565432123";
-//      String make = "Subaru";
-//      String model = "Outback";
-//      String color = "White";
-//      int year = 2015;
-//      int mileage = 13500;
-//      BigDecimal price = new BigDecimal(13500);      
-//      
-//      String vin2 = "12234BCD56ASDF23";
-//      String make2 = "Toyota";
-//      String model2 = "Camry";
-//      String color2 = "Blue";
-//      int year2 = 2009;
-//      int mileage2 = 120000;
-//      BigDecimal price2 = new BigDecimal(6500);
-//      
-//      DealerInventory testInventory = new DealerInventory();
-////      String[] testShow;
-////      
-////      System.out.println("Adding.");
-//      testInventory.addAutomobile(vin, make, model, color, year, mileage, price);
-//      testInventory.addAutomobile(vin2, make2, model2, color2, year2, mileage2, price2);
-////      System.out.println("Retrieving.");
-////      testShow = testInventory.getAutomobile(vin).listAutomobile();
-////      for (int i = 0; i < testShow.length; i++) {
-////         System.out.println(testShow[i]);
-////      }
-////      testShow = testInventory.getAutomobile(vin2).listAutomobile();
-////      for (int i = 0; i < testShow.length; i++) {
-////         System.out.println(testShow[i]);
-////     }
-////      //System.out.println("Removing.");
-////      //testInventory.removeAutomobile(vin);
-////      System.out.println("Retrieving (null)");
-////      testInventory.getAutomobile(vin);
-////      testShow = testInventory.getAutomobile(vin2).listAutomobile();
-////      for (int i = 0; i < testShow.length; i++) {
-////         System.out.println(testShow[i]);
-////      }
-////      
-////      // Test print to file
-////      System.out.println(System.getProperty("user.dir"));
-////      testInventory.printAll("test.txt");
-//      // Test print single to screen
-//      testInventory.printAutomobile(vin2);
-//      testInventory.updateAttribute(vin2, "color", "Red");
-//      testInventory.updateAttribute(vin2, "make", "Honda");
-//      testInventory.updateAttribute(vin2,  "model",  "Accord");
-//      testInventory.updateAttribute(vin2, "year", 2001);
-//      testInventory.updateAttribute(vin2, "mileage", 100000);
-//      testInventory.updateAttribute(vin2, "price", new BigDecimal(7000));
-//      
-//      testInventory.printAutomobile(vin2);
-//      //testInventory.removeAutomobile(vin2);
-//      testInventory.addAutomobile("12343", make2, model2, color2, year2, mileage2, price2);
-//      testInventory.printAutomobile(vin2);
-//      testInventory.printAll("test4.txt");
-      
-        
-//      
-//      // End FIXME test data
-//    
+   public static void main(String[] args) throws IOException {   
       // Instantiate a DealerInventory object
       DealerInventory myInventory = new DealerInventory();
       
-      // Simple menu
-      int menuSelector;
-      Scanner s = new Scanner(System.in);
+      // Declare variables to be used in user menu
       Automobile returnedAuto;
+      String[] returnedDetails;
       boolean returnedFlag;
+      int menuSelector;
+      String currentVin;
+      Scanner s;
       
+      
+      // Simple menu loop
       do {
+         returnedAuto = null;
+         returnedFlag = false;
+         s = new Scanner(System.in);
+         System.out.println();
          System.out.println("Dealership Inventory");
          System.out.println("[1] Add Vehicle");
          System.out.println("[2] Remove Vehicle");
@@ -419,30 +356,48 @@ public class DealerInventory {
          System.out.println("[4] Show Vehicle Details");
          System.out.println("[5] Export Vehicle List");
          System.out.println("[6] Exit");
-         
-         System.out.println("\nEnter the number of your selection: ");
+         System.out.println();
+         System.out.print("Enter the number of your selection: ");
          menuSelector = s.nextInt();
          
          switch(menuSelector) {
             case 1 :
                returnedAuto = myInventory.addAutomobileUserInput();
-               System.out.println("You added a new vehicle:");
-               returnedAuto.listAutomobile();
+               if (null != returnedAuto) {
+                  System.out.println();
+                  System.out.println("You added a new vehicle:");
+                  myInventory.printAutomobile(returnedAuto.getVin());
+               } else {
+                  System.out.println("Vehicle was not added.");
+               }
                break;
             case 2 :
                System.out.print("Enter the VIN to remove: ");
                returnedFlag = myInventory.removeAutomobile(s.next());
                break;
             case 3 :
-               System.out.println("Enter the VIN to update: ");
-               String currentVin = s.next();
+               System.out.print("Enter the VIN to update: ");
+               currentVin = s.next();
                returnedAuto = myInventory.updateAttributeUserInput(currentVin);
+               if (null != returnedAuto) {
+                  System.out.println("Returned:");
+                  myInventory.printAutomobile(returnedAuto.getVin());   
+               }
+               break;
+            case 4 :
+               System.out.print("Enter the VIN to display: ");
+               currentVin  = s.next();
+               myInventory.printAutomobile(currentVin);
+               break;
+               
                
             // TODO : Add cases for the rest of the menu options.  Then done?
-         }  
+         } 
+         
       }
       while (menuSelector != 6);
-
+      
+      s.close();
    }
 
 }
