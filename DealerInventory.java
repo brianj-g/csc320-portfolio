@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.Scanner;
 import java.io.PrintWriter;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -301,12 +301,13 @@ public class DealerInventory {
    }
    
    // Method to print full inventory to a file
-   public void printAll(String fileName) throws IOException {
+   public void saveAll(String fileName) throws IOException {
       String[] retrievedAuto;
       FileOutputStream fileStream = null;
       PrintWriter filePrinter = null;
+      File file = new File(fileName);
       try {
-         fileStream = new FileOutputStream(fileName);
+         fileStream = new FileOutputStream(file);
       } catch (FileNotFoundException e) {
          System.out.println(e.getMessage());
       }
@@ -327,10 +328,33 @@ public class DealerInventory {
          }
       } catch (Exception e) {
          System.out.println(e.getMessage());
-         System.out.println("There was a problem printing to file.");
+         System.out.println("There was a problem saving to file.");
       }
+      
+      System.out.println("Saved to " + file.getAbsolutePath());
+      
       filePrinter.close();
       fileStream.close();
+   }
+   
+   public void savePrompt() {
+      String fileName = "inventory.";
+      Scanner s = new Scanner(System.in);
+      
+      System.out.print("Current working directory: ");
+      System.out.println(System.getProperty("user.dir"));
+      System.out.println();
+      System.out.print("Enter the filename to save (inventory.txt is the default): ");
+      if(s.next() != null) {
+         fileName = s.next();
+      }
+      
+      try {
+         saveAll(fileName);
+      } catch (IOException e) {
+         System.out.println(e.getMessage());
+         System.out.println("There was a problem saving to file.");
+      }
    }
    
    public static void main(String[] args) throws IOException {   
@@ -339,20 +363,17 @@ public class DealerInventory {
       
       // Declare variables to be used in user menu
       Automobile returnedAuto;
-      String[] returnedDetails;
-      boolean returnedFlag;
-      int menuSelector;
-      String currentVin;
       Automobile currentAuto;
-      String fileName;
+      String currentVin;
+      int menuSelector;
       Scanner s;
       
       
       // Simple menu loop
       do {
          returnedAuto = null;
-         returnedFlag = false;
          s = new Scanner(System.in);
+         
          System.out.println();
          System.out.println("Dealership Inventory");
          System.out.println("[1] Add Vehicle");
@@ -379,7 +400,7 @@ public class DealerInventory {
                break;
             case 2 :
                System.out.print("Enter the VIN to remove: ");
-               returnedFlag = myInventory.removeAutomobile(s.next());
+               myInventory.removeAutomobile(s.next());
                break;
             case 3 :
                System.out.print("Enter the VIN to update: ");
@@ -407,13 +428,26 @@ public class DealerInventory {
                System.out.print("Current working directory: ");
                System.out.println(System.getProperty("user.dir"));
                System.out.println();
-               System.out.println("Enter the filename to save (default: inventory.txt): ");
-               
-            // TODO : Add cases for the rest of the menu options.  Then done?
+               System.out.print("Enter the filename to save (inventory.txt is the default): ");
+               myInventory.savePrompt();
+               break;
+            case 7 :
+               System.out.print("Would you like to save a copy of your inventory first? [Y/N]: ");
+               String saveConfirm = s.next();
+               switch (saveConfirm.toLowerCase()) {
+                  case "y" : 
+                     myInventory.savePrompt();
+                  case "n" :
+                     System.out.println("Exiting. Thank you for using the program!");
+                  default :
+                     System.out.println("Invalid option. Returning to menu.");
+                     menuSelector = -1;
+               }
+
          } 
          
       }
-      while (menuSelector != 6);
+      while (menuSelector != 7);
       
       s.close();
    }
