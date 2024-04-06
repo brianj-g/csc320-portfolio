@@ -465,6 +465,16 @@ public class DealerInventory {
          }
       }
    }
+
+   public void backToMenu(){
+      Scanner s = new Scanner(System.in);
+      String c = "0";
+      System.out.println("Press Enter/Return to return to the main menu.");
+      while (!c.isEmpty()) {
+         c = s.nextLine();
+         c = "";
+     }
+   }
    
    public static void main(String[] args) throws IOException {   
       // Instantiate a DealerInventory object
@@ -487,7 +497,6 @@ public class DealerInventory {
          s = new Scanner(System.in);
          
          // Print the menu each time the loop begins
-         System.out.println();
          System.out.println("***Dealership Inventory***");
          System.out.println("[1] Add Vehicle");
          System.out.println("[2] Remove Vehicle");
@@ -537,6 +546,7 @@ public class DealerInventory {
                System.out.print("Enter the VIN to display: ");
                currentVin  = s.next();
                myInventory.printAutomobile(currentVin);
+               myInventory.backToMenu();
                break;
             case 5 :
                System.out.println("Dealer Inventory Report");
@@ -546,6 +556,7 @@ public class DealerInventory {
                   myInventory.printAutomobile(currentAuto.getVin());
                }
                System.out.println();
+               myInventory.backToMenu();
                break;
             case 6 :
                myInventory.savePrompt();
