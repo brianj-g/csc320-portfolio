@@ -33,8 +33,11 @@ public class DealerInventory {
             System.out.println("Automobile with VIN " + vin + " is already in the inventory.");
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not add new automobile.");
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("Unable to add automobile.");
+         }
       }
 
       return null;
@@ -61,6 +64,7 @@ public class DealerInventory {
          if (e.getMessage() != null) {
             System.out.println(e.getMessage());   
          } else {
+            System.out.println();
             System.out.println("ERROR: Invalid year");
          }
 
@@ -74,6 +78,7 @@ public class DealerInventory {
          if (e.getMessage() != null) {
             System.out.println(e.getMessage());   
          } else {
+            System.out.println();
             System.out.println("ERROR: Invalid mileage"); 
          }
 
@@ -87,6 +92,7 @@ public class DealerInventory {
          if (e.getMessage() != null) {
             System.out.println(e.getMessage());   
          } else {
+            System.out.println();
             System.out.println("ERROR: Invalid price");
          }
 
