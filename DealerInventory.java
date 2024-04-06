@@ -80,7 +80,7 @@ public class DealerInventory {
    }
 
    // Method to find a particular vehicle and return the Automobile object
-   public Automobile showAutomobile(String vin) {
+   public Automobile getAutomobile(String vin) {
       try {
          int vinIndex = checkInventory(vin);
          
@@ -120,7 +120,7 @@ public class DealerInventory {
       return null;
    }
    
-   // TODO: Method (overload) to update a vehicle's numerical attributes
+   // Method (overload) to update a vehicle's numerical attributes
    public Automobile updateAttribute(String vin, String attribute, int value) {
       try {
          int vinIndex = checkInventory(vin);
@@ -134,7 +134,8 @@ public class DealerInventory {
                case "mileage" : 
                   currentAutomobile.setMileage(value);
                   break;
-               // No default case is needed since the object will be returned unmodified
+               default : 
+                  System.out.println("Invalid option: " + attribute);
             }
             // Return the automobile object no matter what the case (including default case)
             return currentAutomobile;
@@ -147,9 +148,53 @@ public class DealerInventory {
       return null;
    }
    
-   // TODO: Method (overload) to update the vehicle's price
+   // Method (overload) to update the vehicle's price
+   public Automobile updateAttribute(String vin, String attribute, BigDecimal value) {
+      try {
+         int vinIndex = checkInventory(vin);
+         
+         if(vinIndex >= 0) {
+            Automobile currentAutomobile = dealerInventory.get(vinIndex);
+            switch(attribute.toLowerCase()) {
+               case "price" : 
+                  currentAutomobile.setPrice(value);
+                  break;
+               default : 
+                  System.out.println("Invalid option: " + attribute);
+            }
+            // Return the automobile object no matter what the case (including default case)
+            return currentAutomobile;
+         }
+      } catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not update automobile.");            
+      }
+      
+      return null;
+   }
    
-   // TODO: Method to print (to file) the dealer inventory
+   // TODO: Method to print an object to screen
+   public void printAutomobile(String vin) {
+      String[] retrievedAuto;
+      
+      try {
+         int vinIndex = checkInventory(vin);
+         
+         if(vinIndex >= 0) {
+            retrievedAuto = dealerInventory.get(vinIndex).listAutomobile();
+            for (int i = 0; i < retrievedAuto.length; i++) {
+               System.out.println(retrievedAuto[i]);
+            } 
+         }
+      }
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+         System.out.println("ERROR: Could not retrieve automobile.");  
+      }
+
+   }
+   
+   // TODO: Method to print multiple objects (overload)
    
    public static void main(String[] args) {
       // FIXME: The following are unit tests and should be removed
@@ -179,19 +224,19 @@ public class DealerInventory {
       testInventory.addAutomobile(vin, make, model, color, year, mileage, price);
       testInventory.addAutomobile(vin2, make2, model2, color2, year2, mileage2, price2);
       System.out.println("Retrieving.");
-      testShow = testInventory.showAutomobile(vin).listAutomobile();
+      testShow = testInventory.getAutomobile(vin).listAutomobile();
       for (int i = 0; i < testShow.length; i++) {
          System.out.println(testShow[i]);
       }
-      testShow = testInventory.showAutomobile(vin2).listAutomobile();
+      testShow = testInventory.getAutomobile(vin2).listAutomobile();
       for (int i = 0; i < testShow.length; i++) {
          System.out.println(testShow[i]);
       }
       System.out.println("Removing.");
       testInventory.removeAutomobile(vin);
       System.out.println("Retrieving (null)");
-      testInventory.showAutomobile(vin);
-      testShow = testInventory.showAutomobile(vin2).listAutomobile();
+      testInventory.getAutomobile(vin);
+      testShow = testInventory.getAutomobile(vin2).listAutomobile();
       for (int i = 0; i < testShow.length; i++) {
          System.out.println(testShow[i]);
       }
