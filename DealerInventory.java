@@ -1,3 +1,15 @@
+/**
+ * Portfolio Project: Dealer Automobile Inventory
+ * Brian Gunther
+ * Colorado State University Global
+ * CSC320: Programming I
+ * Dr. Gonzalez
+ * April 7, 2024
+ * 
+ * Overview: This program functions as a basic inventory program for a car dealership.
+ * It uses a class for instantiation of invidivual automobile objects, and a class with user interface
+ * methods and the main program.
+ */
 
 import java.util.ArrayList;
 import java.math.BigDecimal;
@@ -8,10 +20,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * This class provides the main program method and a variety of user interface methods to create, 
+ * modify, store, and remove objects from an ArrayList. This also provides mechanisms to print
+ * and save the ArrayList contents to a file.
+ */
 public class DealerInventory {
-   // Define a new ArrayList that will contain inventory objects of the Automobile class
+   
+   /**
+    * ArrayList to keep inventory
+    */
    private ArrayList<Automobile> dealerInventory = new ArrayList<Automobile>();
    
+   /**
+    * Checks the ArrayList for presence of an object with specified VIN. 
+    * @param vin
+    * @return integer representing the index in the ArrayList, or -1 if not found
+    */
    public int checkInventory(String vin) {
       for (int i = 0; i < dealerInventory.size(); i++) {
          if (vin.compareTo(dealerInventory.get(i).getVin()) == 0) {
@@ -21,7 +46,17 @@ public class DealerInventory {
       return -1;
    }
 
-   // Method to add an automobile object to inventory
+   /**
+    * Method to add an automobile object to inventory
+    * @param vin
+    * @param make
+    * @param model
+    * @param color
+    * @param year
+    * @param mileage
+    * @param price
+    * @return Automobile reference to the newly created object, or null if unable to create
+    */
    public Automobile addAutomobile(String vin, String make, String model, String color, int year, int mileage, BigDecimal price) {
       try {
          if (checkInventory(vin) < 0) {
@@ -44,7 +79,10 @@ public class DealerInventory {
       return null;
    }
 
-   // User input method for adding automobile
+   /**
+    *  User input method for adding automobile
+    * @return Automobile from the addAutomobile method
+    */
    public Automobile addAutomobileUserInput() {
       Scanner s = new Scanner(System.in);
       
@@ -60,7 +98,7 @@ public class DealerInventory {
           vin = s.nextLine().trim();
       }
       
-      // Make, Model, and Color can be optional. User can skip past by hitting "enter".
+      // Make, Model, and Color will loop until a string is entered.
       System.out.print("Make (e.g., Toyota): ");
       String make = s.nextLine();
       while (make.isEmpty()) {
@@ -85,15 +123,21 @@ public class DealerInventory {
          color = s.nextLine();
       }
       
+      /**
+       * Numeric data types year, mileage, and price require handling to ensure the correct data type
+       * is entered. These will loop until appropriate data is detected.
+       */
       int year = -1;
       boolean validYear = false;
       do {
          System.out.print("Year (e.g., 2024): ");
          String lineInput = s.nextLine();
+         // Top of loop if blank line
          if ("".equals(lineInput)) {
             System.out.println("Invalid input. Please enter the year as an integer.");
          } else {
             try {
+               // Attempts to locate integer in the input string. Throws exception if this fails.
                year = Integer.parseInt(lineInput);
                validYear = true;
             } catch (Exception e) {
@@ -107,10 +151,12 @@ public class DealerInventory {
       do {
          System.out.print("Mileage (e.g., 10000): ");
          String lineInput = s.nextLine();
+         // Top of loop if blank line
          if ("".equals(lineInput)) {
             System.out.println("Invalid input. Please enter the mileage as an integer.");
          } else {
             try {
+               // Attempts to locate integer in the input string. Throws exception if this fails.
                mileage = Integer.parseInt(lineInput);
                validMileage = true;
             } catch (Exception e) {
@@ -124,10 +170,12 @@ public class DealerInventory {
       do {
          System.out.print("Price (e.g., 20000.00): ");
          String lineInput = s.nextLine();
+         // Top of loop if blank line
          if ("".equals(lineInput)) {
             System.out.println("Invalid input. Please enter a valid price.");
          } else {
             try {
+               // Attempts to convert the input to a BigDecimal. Exception thrown if this fails.
                price = new BigDecimal(lineInput);
                validPrice = true;
             } catch (Exception e) {
@@ -139,7 +187,11 @@ public class DealerInventory {
       return addAutomobile(vin, make, model, color, year, mileage, price);
    }
    
-   // Method to remove an automobile from inventory (based on VIN)
+   /**
+    *  Method to remove an automobile from inventory (based on VIN)
+    * @param vin
+    * @return true if successfully removed; false if the operation fails.
+    */
    public boolean removeAutomobile(String vin) {
       try {
          int vinIndex = checkInventory(vin);
@@ -163,7 +215,11 @@ public class DealerInventory {
       return false;
    }
 
-   // Method to find a particular vehicle and return the Automobile object
+   /**
+    *  Method to find a particular vehicle and return the Automobile object
+    * @param vin
+    * @return Returns Automobile object that was located, or null if not found
+    */
    public Automobile getAutomobile(String vin) {
       try {
          int vinIndex = checkInventory(vin);
@@ -185,7 +241,13 @@ public class DealerInventory {
       return null;
    }
    
-   // Method to update a vehicle's *String* attributes
+   /**
+    *  Method to update a vehicle's *String* attributes
+    * @param vin
+    * @param attribute
+    * @param value
+    * @return Returns updated Automobile object, or null if unable to update.
+    */
    public Automobile updateAttribute(String vin, String attribute, String value) {
       try {
          int vinIndex = checkInventory(vin);
@@ -218,7 +280,13 @@ public class DealerInventory {
       return null;
    }
    
-   // Method (overload) to update a vehicle's numerical attributes
+   /**
+    *  Method (overload) to update a vehicle's numerical attributes
+    * @param vin
+    * @param attribute
+    * @param value
+    * @return Returns updated Automobile object, or null if unable to update.
+    */
    public Automobile updateAttribute(String vin, String attribute, int value) {
       try {
          int vinIndex = checkInventory(vin);
@@ -249,7 +317,13 @@ public class DealerInventory {
       return null;
    }
    
-   // Method (overload) to update the vehicle's price
+   /**
+    *  Method (overload) to update the vehicle's price
+    * @param vin
+    * @param attribute
+    * @param value
+    * @return Returns updated Automobile object, or null if unable to update.
+    */
    public Automobile updateAttribute(String vin, String attribute, BigDecimal value) {
       try {
          int vinIndex = checkInventory(vin);
@@ -277,7 +351,11 @@ public class DealerInventory {
       return null;
    }
    
-   // User input method for updating attributes
+   /**
+    *  User input method for updating attributes
+    * @param vin
+    * @return Returns updated Automobile object, or null if unable to update.
+    */
    public Automobile updateAttributeUserInput(String vin) {
       Scanner s = new Scanner(System.in);
       int selection;
@@ -287,7 +365,6 @@ public class DealerInventory {
          int vinIndex = checkInventory(vin);
          
          if(vinIndex >= 0) {
-            
             Automobile currentAuto = dealerInventory.get(vinIndex);
             System.out.println();
             System.out.println("***Update Vehicle Attribute***");
@@ -298,8 +375,22 @@ public class DealerInventory {
             System.out.println("[5] Mileage");
             System.out.println("[6] Price");
             
-            System.out.print("Enter the number for the attribute to update: ");
-            selection = s.nextInt();
+            // Request user input for the menu selection
+            selection = 0;
+            // Basic validation for input range between 1 and 6
+            while (selection < 1 || selection > 6) {
+               try {
+                  System.out.print("Enter the number of your selection (1-6): ");
+                  selection = s.nextInt();
+                  if (selection < 1 || selection > 6) {
+                     throw new Exception("You did not enter a valid option");
+                  }
+               } catch (Exception e) {
+                  System.out.println();
+                  System.out.println("You did not enter a valid option.");
+                  selection = 0;
+               }
+            }
             System.out.print("Enter the new value (Current: ");
             switch (selection) {
                case 1 :
@@ -359,9 +450,9 @@ public class DealerInventory {
                      }
                   }
                   break;
-            }
-            Automobile returnAuto = dealerInventory.get(vinIndex);
-            return returnAuto;
+           }
+
+            return currentAuto;
          } else {
             System.out.println("\nCould not find VIN: " + vin);
          }
@@ -376,7 +467,10 @@ public class DealerInventory {
       return null;
    }
    
-   // Method to print an object to screen
+   /**
+    *  Method to print an object to screen
+    * @param vin
+    */
    public void printAutomobile(String vin) {
       String[] retrievedAuto;
       
@@ -384,8 +478,10 @@ public class DealerInventory {
          int vinIndex = checkInventory(vin);
          
          if(vinIndex >= 0) {
+            // Uses the array from the object's listAutomobile method
             retrievedAuto = dealerInventory.get(vinIndex).listAutomobile();
             for (int i = 0; i < retrievedAuto.length; i++) {
+               // Print each element to screen
                System.out.println(retrievedAuto[i]);
             }
             System.out.println();
@@ -402,11 +498,18 @@ public class DealerInventory {
       }
    }
    
-   // Method to print full inventory to a file
+   /**
+    *  Method to print full inventory to a file
+    * @param fileName can be any string. If it contains path delineators (e.g., "/") 
+    * then the path will be updated.
+    * @throws IOException to accomodate a variety of general issues with file operations.
+    */
    public void saveAll(String fileName) throws IOException {
       String[] retrievedAuto;
       FileOutputStream fileStream = null;
       PrintWriter filePrinter = null;
+      
+      // creates a File object from the filename so that the full path can be displayed
       File file = new File(fileName);
       try {
          fileStream = new FileOutputStream(file);
@@ -419,6 +522,7 @@ public class DealerInventory {
             try {
                retrievedAuto = dealerInventory.get(inventoryIndex).listAutomobile();
                for (int i = 0; i < retrievedAuto.length; i++) {
+                  // Prints each element in the listAutomobile() to file, for each object in the ArrayList
                   filePrinter.println(retrievedAuto[i]);
                }
                filePrinter.println();
@@ -431,6 +535,7 @@ public class DealerInventory {
                }
             }
          }
+         // For better user experience, the full path is printed after saving
          System.out.println("Saved to " + file.getAbsolutePath());
       } catch (Exception e) {
          if (e.getMessage() != null) {
@@ -439,6 +544,8 @@ public class DealerInventory {
             System.out.println("ERROR: There was a problem saving to file.");
          }
       } finally {
+         // This null check must be done prior to closing the object to avoid errors if the FileOutputStream
+         // object is nullified due to a read-only path, etc.
          if (filePrinter != null) {
             filePrinter.close();
          }
@@ -446,12 +553,16 @@ public class DealerInventory {
 
    }
    
+   /**
+    * Method to prompt the user for a file name, with input validation and exception handling
+    */
    public void savePrompt() {
       String fileName = "";
       Scanner s = new Scanner(System.in);
       System.out.print("Enter the filename to save [Press enter to use \"inventory.txt\"]: ");
       fileName = s.nextLine();
       if (fileName.isEmpty()) {
+         // If the user doesn't type anything, use a default filename
          fileName = "inventory.txt";
       }
       
@@ -466,6 +577,9 @@ public class DealerInventory {
       }
    }
 
+   /**
+    * Method to create a pause in the program after the user calls a printed report
+    */
    public void backToMenu(){
       Scanner s = new Scanner(System.in);
       String c = "0";
@@ -520,20 +634,26 @@ public class DealerInventory {
          
          switch(menuSelector) {
             case 1 :
+               // Add an object
                returnedAuto = myInventory.addAutomobileUserInput();
                if (null != returnedAuto) {
                   System.out.println();
                   System.out.println("You added a new vehicle:");
                   myInventory.printAutomobile(returnedAuto.getVin());
                } else {
+                  // If null was returned, let the user know the object was not added
                   System.out.println("Vehicle was not added.");
                }
                break;
             case 2 :
+               // Remove an object
                System.out.print("Enter the VIN to remove: ");
-               myInventory.removeAutomobile(s.next());
+               if (myInventory.removeAutomobile(s.next())) {
+                  System.out.println("Vehicle was removed.");
+               }
                break;
             case 3 :
+               // Update a single attribute
                System.out.print("Enter the VIN to update: ");
                currentVin = s.next();
                returnedAuto = myInventory.updateAttributeUserInput(currentVin);
@@ -541,14 +661,18 @@ public class DealerInventory {
                   System.out.println("Automobile details:");
                   myInventory.printAutomobile(returnedAuto.getVin());   
                }
+               // A null return is handled upstream by the user input method
                break;
             case 4 :
+               // Print a single object to screen
                System.out.print("Enter the VIN to display: ");
                currentVin  = s.next();
                myInventory.printAutomobile(currentVin);
+               // Call a pause to allow the user to read the screen before returning to menu
                myInventory.backToMenu();
                break;
             case 5 :
+               // Print all objects to screen
                System.out.println("Dealer Inventory Report");
                System.out.println();
                for (int i = 0; i < myInventory.dealerInventory.size(); i++) {
@@ -556,12 +680,15 @@ public class DealerInventory {
                   myInventory.printAutomobile(currentAuto.getVin());
                }
                System.out.println();
+               // Call a pause to allow the user to read the screen before returning to menu
                myInventory.backToMenu();
                break;
             case 6 :
+               // Save to file. All operations are handled by the called method.
                myInventory.savePrompt();
                break;
             case 7 :
+               // Exit program, with user-friendly reminder to save before exiting.
                System.out.print("Would you like to save a copy of your inventory first? [Y/N]: ");
                String saveConfirm = s.next();
                switch (saveConfirm.toLowerCase()) {
