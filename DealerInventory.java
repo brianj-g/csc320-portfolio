@@ -30,6 +30,7 @@ public class DealerInventory {
             return newAuto;
          }
          else {
+            System.out.println();
             System.out.println("Automobile with VIN " + vin + " is already in the inventory.");
          }
       } catch (Exception e) {
@@ -48,60 +49,95 @@ public class DealerInventory {
       Scanner s = new Scanner(System.in);
       
       System.out.println("Please provide details about the car in the following prompts...");
+
       System.out.print("VIN (e.g., 1234ABCD): ");
-      String vin = s.next();
+      String vin = s.nextLine().trim();
+      
+      // VIN is mandatory and will loop until one is entered.
+      while (vin.isEmpty()) {
+          System.out.println("VIN cannot be blank.");
+          System.out.print("VIN (e.g., 1234ABCD): ");
+          vin = s.nextLine().trim();
+      }
+      
+      // Make, Model, and Color can be optional. User can skip past by hitting "enter".
       System.out.print("Make (e.g., Toyota): ");
-      String make = s.next();
+      String make = s.nextLine();
+      while (make.isEmpty()) {
+          System.out.println("Make cannot be blank.");
+          System.out.print("Make (e.g., Toyota): ");
+          make = s.nextLine();
+      }
+
       System.out.print("Model (e.g., Camry): ");
-      String model = s.next();
+      String model = s.nextLine();
+      while (model.isEmpty()) {
+         System.out.println("Model cannot be blank.");
+         System.out.print("Model (e.g., Camry): ");
+         model = s.nextLine();
+      }
+
       System.out.print("Color (e.g., Blue): ");
-      String color = s.next();
-      System.out.print("Year (e.g., 2024): ");
+      String color = s.nextLine();
+      while (color.isEmpty()) {
+         System.out.println("Color cannot be blank.");
+         System.out.print("Color (e.g., Blue): ");
+         color = s.nextLine();
+      }
+      
       int year = -1;
-      try {
-         year = s.nextInt();
-      } catch (Exception e) {
-         if (e.getMessage() != null) {
-            System.out.println(e.getMessage());   
+      boolean validYear = false;
+      do {
+         System.out.print("Year (e.g., 2024): ");
+         String lineInput = s.nextLine();
+         if ("".equals(lineInput)) {
+            System.out.println("Invalid input. Please enter the year as an integer.");
          } else {
-            System.out.println();
-            System.out.println("ERROR: Invalid year format");
+            try {
+               year = Integer.parseInt(lineInput);
+               validYear = true;
+            } catch (Exception e) {
+               System.out.println("Invalid input. Please enter the year as an integer.");
+            }
          }
-
-         return null;
-      }
-      System.out.print("Mileage (e.g., 10000): ");
+      } while (!validYear);      
+      
       int mileage = -1;
-      try {
-         mileage = s.nextInt();
-      } catch (Exception e) {
-         if (e.getMessage() != null) {
-            System.out.println(e.getMessage());   
+      boolean validMileage = false;
+      do {
+         System.out.print("Mileage (e.g., 10000): ");
+         String lineInput = s.nextLine();
+         if ("".equals(lineInput)) {
+            System.out.println("Invalid input. Please enter the mileage as an integer.");
          } else {
-            System.out.println();
-            System.out.println("ERROR: Invalid mileage format"); 
+            try {
+               mileage = Integer.parseInt(lineInput);
+               validMileage = true;
+            } catch (Exception e) {
+               System.out.println("Invalid input. Please enter the mileage as an integer.");
+            }
          }
-
-         return null;
-      }
-      System.out.print("Price (e.g., 20000.00): ");
+      } while (!validMileage); 
+      
       BigDecimal price = new BigDecimal(-1);
-      try {
-         price = s.nextBigDecimal();
-      } catch (Exception e) {
-         if (e.getMessage() != null) {
-            System.out.println(e.getMessage());   
+      boolean validPrice = false;
+      do {
+         System.out.print("Price (e.g., 20000.00): ");
+         String lineInput = s.nextLine();
+         if ("".equals(lineInput)) {
+            System.out.println("Invalid input. Please enter a valid price.");
          } else {
-            System.out.println();
-            System.out.println("ERROR: Invalid price format");
+            try {
+               price = new BigDecimal(lineInput);
+               validPrice = true;
+            } catch (Exception e) {
+               System.out.println("Invalid input. Please enter a valid price.");
+            }
          }
-
-         return null;
-      }
+      } while (!validPrice); 
       
       return addAutomobile(vin, make, model, color, year, mileage, price);
    }
-   
    
    // Method to remove an automobile from inventory (based on VIN)
    public boolean removeAutomobile(String vin) {
@@ -251,30 +287,38 @@ public class DealerInventory {
          int vinIndex = checkInventory(vin);
          
          if(vinIndex >= 0) {
-            System.out.println("Enter the number for the attribute to update:");
+            
+            Automobile currentAuto = dealerInventory.get(vinIndex);
+            System.out.println();
+            System.out.println("***Update Vehicle Attribute***");
             System.out.println("[1] Make");
             System.out.println("[2] Model");
             System.out.println("[3] Color");
             System.out.println("[4] Year");
             System.out.println("[5] Mileage");
             System.out.println("[6] Price");
-            System.out.println("Enter the new value: ");
             
+            System.out.print("Enter the number for the attribute to update: ");
             selection = s.nextInt();
+            System.out.print("Enter the new value (Current: ");
             switch (selection) {
                case 1 :
+                  System.out.print(currentAuto.getMake() + "): ");
                   String newMake = s.next();
                   updateAttribute(vin, "make", newMake);
                   break;
                case 2 :
+                  System.out.print(currentAuto.getModel() + "): ");
                   String newModel = s.next();
                   updateAttribute(vin, "model", newModel);
                   break;
                case 3 :
+                  System.out.print(currentAuto.getColor() + "): ");
                   String newColor = s.next();
                   updateAttribute(vin, "color", newColor);
                   break;
                case 4 :
+                  System.out.print(currentAuto.getYear() + "): ");
                   int newYear;
                   try {
                      newYear = s.nextInt();
@@ -289,6 +333,7 @@ public class DealerInventory {
                   break;
                case 5 :
                   int newMileage;
+                  System.out.print(currentAuto.getMileage() + "): ");
                   try {
                      newMileage = s.nextInt();
                      updateAttribute(vin, "mileage", newMileage);
@@ -301,6 +346,7 @@ public class DealerInventory {
                   }
                   break;
                case 6 :
+                  System.out.print(currentAuto.getPrice() + "): ");
                   BigDecimal newPrice;
                   try {
                      newPrice = s.nextBigDecimal();
@@ -314,10 +360,10 @@ public class DealerInventory {
                   }
                   break;
             }
-            Automobile currentAuto = dealerInventory.get(vinIndex);
-            return currentAuto;
+            Automobile returnAuto = dealerInventory.get(vinIndex);
+            return returnAuto;
          } else {
-            System.out.println("VIN could not be located: " + vin);
+            System.out.println("\nCould not find VIN: " + vin);
          }
       } catch (Exception e){
          if (e.getMessage() != null) {
@@ -341,7 +387,8 @@ public class DealerInventory {
             retrievedAuto = dealerInventory.get(vinIndex).listAutomobile();
             for (int i = 0; i < retrievedAuto.length; i++) {
                System.out.println(retrievedAuto[i]);
-            } 
+            }
+            System.out.println();
          }
          else {
             System.out.println("\nCould not find VIN: " + vin);
@@ -384,30 +431,28 @@ public class DealerInventory {
                }
             }
          }
+         System.out.println("Saved to " + file.getAbsolutePath());
       } catch (Exception e) {
          if (e.getMessage() != null) {
             System.out.println(e.getMessage());   
          } else {
             System.out.println("ERROR: There was a problem saving to file.");
          }
+      } finally {
+         if (filePrinter != null) {
+            filePrinter.close();
+         }
       }
-      
-      System.out.println("Saved to " + file.getAbsolutePath());
-      
-      filePrinter.close();
-      fileStream.close();
+
    }
    
    public void savePrompt() {
-      String fileName = "inventory.";
+      String fileName = "";
       Scanner s = new Scanner(System.in);
-      
-      System.out.print("Current working directory: ");
-      System.out.println(System.getProperty("user.dir"));
-      System.out.println();
-      System.out.print("Enter the filename to save (inventory.txt is the default): ");
-      if(s.next() != null) {
-         fileName = s.next();
+      System.out.print("Enter the filename to save [Press enter to use \"inventory.txt\"]: ");
+      fileName = s.nextLine();
+      if (fileName.isEmpty()) {
+         fileName = "inventory.txt";
       }
       
       try {
@@ -425,6 +470,10 @@ public class DealerInventory {
       // Instantiate a DealerInventory object
       DealerInventory myInventory = new DealerInventory();
       
+      // For demonstration purposes: Populate sample data
+      myInventory.dealerInventory.add(new Automobile("AAAA", "Toyota", "86", "Red", 2020, 20000, new BigDecimal(20000)));
+      myInventory.dealerInventory.add(new Automobile("BBBB", "Honda", "Civic", "Blue", 2021, 16000, new BigDecimal(23000)));
+      
       // Declare variables to be used in user menu
       Automobile returnedAuto;
       Automobile currentAuto;
@@ -432,14 +481,14 @@ public class DealerInventory {
       int menuSelector;
       Scanner s;
       
-      
-      // Simple menu loop
+      // Simple user menu loop
       do {
          returnedAuto = null;
          s = new Scanner(System.in);
          
+         // Print the menu each time the loop begins
          System.out.println();
-         System.out.println("Dealership Inventory");
+         System.out.println("***Dealership Inventory***");
          System.out.println("[1] Add Vehicle");
          System.out.println("[2] Remove Vehicle");
          System.out.println("[3] Update Vehicle Details");
@@ -448,8 +497,17 @@ public class DealerInventory {
          System.out.println("[6] Save Vehicle List to File");
          System.out.println("[7] Exit");
          System.out.println();
-         System.out.print("Enter the number of your selection: ");
-         menuSelector = s.nextInt();
+         
+         // Request user input for the menu selection
+         System.out.print("Enter the number of your selection (1-7): ");
+         menuSelector = 0;
+         try {
+            menuSelector = s.nextInt();
+         } catch (Exception e) {
+            System.out.println();
+            System.out.println("You did not enter a valid option.");
+            continue;
+         }
          
          switch(menuSelector) {
             case 1 :
@@ -470,8 +528,8 @@ public class DealerInventory {
                System.out.print("Enter the VIN to update: ");
                currentVin = s.next();
                returnedAuto = myInventory.updateAttributeUserInput(currentVin);
-               if (null != returnedAuto) {
-                  System.out.println("Returned:");
+               if (returnedAuto != null) {
+                  System.out.println("Automobile details:");
                   myInventory.printAutomobile(returnedAuto.getVin());   
                }
                break;
@@ -486,13 +544,10 @@ public class DealerInventory {
                for (int i = 0; i < myInventory.dealerInventory.size(); i++) {
                   currentAuto = myInventory.dealerInventory.get(i);
                   myInventory.printAutomobile(currentAuto.getVin());
-                  System.out.println();
                }
-            case 6 :
-               System.out.print("Current working directory: ");
-               System.out.println(System.getProperty("user.dir"));
                System.out.println();
-               System.out.print("Enter the filename to save (inventory.txt is the default): ");
+               break;
+            case 6 :
                myInventory.savePrompt();
                break;
             case 7 :
@@ -501,13 +556,19 @@ public class DealerInventory {
                switch (saveConfirm.toLowerCase()) {
                   case "y" : 
                      myInventory.savePrompt();
+                     System.out.println("Exiting. Thank you for using the program!");
+                     break;
                   case "n" :
                      System.out.println("Exiting. Thank you for using the program!");
+                     break;
                   default :
                      System.out.println("Invalid option. Returning to menu.");
                      menuSelector = -1;
                }
-
+               break;
+             default :
+                System.out.println();
+                System.out.println("You did not enter a valid option.");
          } 
          
       }

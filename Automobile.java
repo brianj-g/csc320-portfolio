@@ -34,22 +34,27 @@ public class Automobile {
       this.model = model;
       this.color = color;
       // Perform basic validation for year. This could be varied based on the dealership's inventory focus.
-      if (year > 1970 && year <= Year.now().getValue() + 1) {
+      int minYear = 1970;
+      int maxYear = Year.now().getValue() + 1;
+      if (year >= minYear && year <= maxYear) {
          this.year = year;
       } else {
-         throw new IllegalArgumentException("Invalid year: " + year);
+         System.out.println();
+         throw new IllegalArgumentException("Year must be between " + minYear + " and " + maxYear + ".");
       }
       // Ensure a zero or positive mileage is entered
       if (mileage >= 0) {
          this.mileage = mileage;
       } else {
-         throw new IllegalArgumentException("Invalid mileage: " + mileage);
+         System.out.println();
+         throw new IllegalArgumentException("Mileage must be at least zero.");
       }
       // Ensure a positive dollar amount is entered
       if (price.compareTo(new BigDecimal(0)) == 1) {
          this.price = price;
       } else {
-         throw new IllegalArgumentException("Invalid price: " + price);
+         System.out.println();
+         throw new IllegalArgumentException("Price must be greater than zero.");
       }
 
    }
