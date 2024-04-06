@@ -32,8 +32,7 @@ public class DealerInventory {
          else {
             System.out.println("Automobile with VIN " + vin + " is already in the inventory.");
          }
-      } 
-      catch (Exception e) {
+      } catch (Exception e) {
          System.out.println(e.getMessage());
          System.out.println("ERROR: Could not add new automobile.");
       }
@@ -42,7 +41,9 @@ public class DealerInventory {
    }
 
    // User input method for adding automobile
-   public Automobile addAutomobileUserInput(Scanner s) {
+   public Automobile addAutomobileUserInput() {
+      Scanner s = new Scanner(System.in);
+      
       System.out.println("Please provide details about the car in the following prompts...");
       System.out.print("VIN (e.g., 1234ABCD): ");
       String vin = s.next();
@@ -53,12 +54,29 @@ public class DealerInventory {
       System.out.print("Color (e.g., Blue); ");
       String color = s.next();
       System.out.print("Year (e.g., 2024): ");
-      int year = s.nextInt();
+      int year = -1;
+      try {
+         year = s.nextInt();
+      } catch (Exception e) {
+         e.getMessage();
+      }
       System.out.print("Mileage (e.g., 10000): ");
-      int mileage = s.nextInt();
+      int mileage = -1;
+      try {
+         mileage = s.nextInt();
+      } catch (Exception e) {
+         e.getMessage();
+      }
       System.out.print("Price (e.g., 20000.00): ");
-      BigDecimal price = s.nextBigDecimal();
+      BigDecimal price = new BigDecimal(-1);
+      try {
+         price = s.nextBigDecimal();
+      } catch (Exception e) {
+         e.getMessage();
+      }
       
+      
+      s.close();
       return addAutomobile(vin, make, model, color, year, mileage, price);
    }
    
@@ -95,8 +113,7 @@ public class DealerInventory {
          else {
             System.out.println("Automobile could not be found in inventory");
          }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
          System.out.println(e.getMessage());
          System.out.println("ERROR: Could not search automobile.");         
       }
@@ -126,8 +143,7 @@ public class DealerInventory {
             }
             return dealerInventory.get(vinIndex);
          }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
          System.out.println(e.getMessage());
          System.out.println("ERROR: Could not update automobile.");          
       }
@@ -189,8 +205,79 @@ public class DealerInventory {
    }
    
    // User input method for updating attributes
-   public Automobile updateAttributeUserInput(int selection) {
+   public Automobile updateAttributeUserInput(String vin) {
+      Scanner s = new Scanner(System.in);
+      int selection;
       
+      System.out.println("Enter the number for the attribute to update:");
+      System.out.println("[1] Make");
+      System.out.println("[2] Model");
+      System.out.println("[3] Color");
+      System.out.println("[4] Year");
+      System.out.println("[5] Mileage");
+      System.out.println("[6] Price");
+      
+      try {
+         selection = s.nextInt();
+         
+         int vinIndex = checkInventory(vin);
+         
+         if(vinIndex >= 0) {
+            System.out.println("Enter the new value: ");
+            Automobile currentAuto = dealerInventory.get(vinIndex);
+            switch (selection) {
+               case 1 :
+                  String newMake = s.next();
+                  updateAttribute(vin, "make", newMake);
+                  break;
+               case 2 :
+                  String newModel = s.next();
+                  updateAttribute(vin, "model", newModel);
+                  break;
+               case 3 :
+                  String newColor = s.next();
+                  updateAttribute(vin, "color", newColor);
+                  break;
+               case 4 :
+                  int newYear;
+                  try {
+                     newYear = s.nextInt();
+                     updateAttribute(vin, "year", newYear);
+                  } catch (Exception e){
+                     e.getMessage();
+                  }
+                  break;
+               case 5 :
+                  int newMileage;
+                  try {
+                     newMileage = s.nextInt();
+                     updateAttribute(vin, "mileage", newMileage);
+                  } catch (Exception e){
+                     e.getMessage();
+                  }
+                  break;
+               case 6 :
+                  BigDecimal newPrice;
+                  try {
+                     newPrice = s.nextBigDecimal();
+                     updateAttribute(vin, "price", newPrice);
+                  } catch (Exception e){
+                     e.getMessage();
+                  }
+                  break;
+            }
+            
+            return currentAuto;
+         } else {
+            System.out.println("VIN could not be located: " + vin);
+         }
+      } catch (Exception e){
+         e.getMessage();
+      } finally {
+         s.close();
+      }
+      
+      return null;
    }
    
    // Method to print an object to screen
@@ -209,8 +296,7 @@ public class DealerInventory {
          else {
             System.out.println("Could not find VIN: " + vin);
          }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
          System.out.println(e.getMessage());
          System.out.println("ERROR: Could not retrieve automobile.");  
       }
@@ -223,8 +309,7 @@ public class DealerInventory {
       PrintWriter filePrinter = null;
       try {
          fileStream = new FileOutputStream(fileName);
-      } 
-      catch (FileNotFoundException e) {
+      } catch (FileNotFoundException e) {
          System.out.println(e.getMessage());
       }
       try {
@@ -242,8 +327,7 @@ public class DealerInventory {
                System.out.println("ERROR: Could not retrieve automobile.");  
             }
          }
-      }
-      catch (Exception e) {
+      } catch (Exception e) {
          System.out.println(e.getMessage());
          System.out.println("There was a problem printing to file.");
       }
@@ -341,7 +425,7 @@ public class DealerInventory {
          
          switch(menuSelector) {
             case 1 :
-               returnedAuto = myInventory.addAutomobileUserInput(s);
+               returnedAuto = myInventory.addAutomobileUserInput();
                System.out.println("You added a new vehicle:");
                returnedAuto.listAutomobile();
                break;
@@ -352,18 +436,10 @@ public class DealerInventory {
             case 3 :
                System.out.println("Enter the VIN to update: ");
                String currentVin = s.next();
-               System.out.println("Enter the number for the attribute to update:");
-               System.out.println("[1] Make");
-               System.out.println("[2] Model");
-               System.out.println("[3] Color");
-               System.out.println("[4] Year");
-               System.out.println("[5] Mileage");
-               System.out.println("[6] Price");
+               returnedAuto = myInventory.updateAttributeUserInput(currentVin);
                
-               
-         }
-         
-         
+            // TODO : Add cases for the rest of the menu options.  Then done?
+         }  
       }
       while (menuSelector != 6);
 
