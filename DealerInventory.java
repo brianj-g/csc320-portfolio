@@ -58,7 +58,12 @@ public class DealerInventory {
       try {
          year = s.nextInt();
       } catch (Exception e) {
-         System.out.println(e.getMessage());
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Invalid year");
+         }
+
          return null;
       }
       System.out.print("Mileage (e.g., 10000): ");
@@ -66,7 +71,12 @@ public class DealerInventory {
       try {
          mileage = s.nextInt();
       } catch (Exception e) {
-         System.out.println(e.getMessage());
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Invalid mileage"); 
+         }
+
          return null;
       }
       System.out.print("Price (e.g., 20000.00): ");
@@ -74,7 +84,12 @@ public class DealerInventory {
       try {
          price = s.nextBigDecimal();
       } catch (Exception e) {
-         System.out.println(e.getMessage());
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Invalid price");
+         }
+
          return null;
       }
       
@@ -90,14 +105,17 @@ public class DealerInventory {
          if (vinIndex >= 0) {
             dealerInventory.remove(vinIndex);
             return true;
-         }
-         else {
+         } else {
             System.out.println("Automobile could not be found in inventory");
          }
       }
       catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not remove automobile.");         
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not remove automobile.");     
+         }
+    
       }
       
       return false;
@@ -110,13 +128,16 @@ public class DealerInventory {
          
          if (vinIndex >= 0) {
             return dealerInventory.get(vinIndex);
-         }
-         else {
+         } else {
             System.out.println("Automobile could not be found in inventory");
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not search automobile.");         
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not search automobile.");    
+         }
+     
       }
       
       return null;
@@ -145,8 +166,11 @@ public class DealerInventory {
             return dealerInventory.get(vinIndex);
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not update automobile.");          
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not update automobile.");
+         }
       }
       
       return null;
@@ -173,8 +197,11 @@ public class DealerInventory {
             return currentAutomobile;
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not update automobile.");            
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not update automobile.");
+         }         
       }
       
       return null;
@@ -198,8 +225,11 @@ public class DealerInventory {
             return currentAutomobile;
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not update automobile.");            
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not update automobile.");
+         }          
       }
       
       return null;
@@ -244,7 +274,11 @@ public class DealerInventory {
                      newYear = s.nextInt();
                      updateAttribute(vin, "year", newYear);
                   } catch (Exception e){
-                     e.getMessage();
+                     if (e.getMessage() != null) {
+                        System.out.println(e.getMessage());   
+                     } else {
+                        System.out.println("ERROR: Could not update year.");
+                     }
                   }
                   break;
                case 5 :
@@ -253,7 +287,11 @@ public class DealerInventory {
                      newMileage = s.nextInt();
                      updateAttribute(vin, "mileage", newMileage);
                   } catch (Exception e){
-                     e.getMessage();
+                     if (e.getMessage() != null) {
+                        System.out.println(e.getMessage());   
+                     } else {
+                        System.out.println("ERROR: Could not update mileage.");
+                     }
                   }
                   break;
                case 6 :
@@ -262,7 +300,11 @@ public class DealerInventory {
                      newPrice = s.nextBigDecimal();
                      updateAttribute(vin, "price", newPrice);
                   } catch (Exception e){
-                     e.getMessage();
+                     if (e.getMessage() != null) {
+                        System.out.println(e.getMessage());   
+                     } else {
+                        System.out.println("ERROR: Could not update price.");
+                     }
                   }
                   break;
             }
@@ -272,7 +314,11 @@ public class DealerInventory {
             System.out.println("VIN could not be located: " + vin);
          }
       } catch (Exception e){
-         e.getMessage();
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not update automobile.");
+         }
       }
       
       return null;
@@ -295,8 +341,11 @@ public class DealerInventory {
             System.out.println("\nCould not find VIN: " + vin);
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("ERROR: Could not retrieve automobile.");  
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: Could not retrieve automobile.");
+         }
       }
    }
    
@@ -322,13 +371,19 @@ public class DealerInventory {
                filePrinter.println();
             }
             catch (Exception e) {
-               System.out.println(e.getMessage());
-               System.out.println("ERROR: Could not retrieve automobile.");  
+               if (e.getMessage() != null) {
+                  System.out.println(e.getMessage());   
+               } else {
+                  System.out.println("ERROR: Could not retrieve automobile.");
+               }
             }
          }
       } catch (Exception e) {
-         System.out.println(e.getMessage());
-         System.out.println("There was a problem saving to file.");
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: There was a problem saving to file.");
+         }
       }
       
       System.out.println("Saved to " + file.getAbsolutePath());
@@ -352,8 +407,11 @@ public class DealerInventory {
       try {
          saveAll(fileName);
       } catch (IOException e) {
-         System.out.println(e.getMessage());
-         System.out.println("There was a problem saving to file.");
+         if (e.getMessage() != null) {
+            System.out.println(e.getMessage());   
+         } else {
+            System.out.println("ERROR: There was a problem saving to file.");
+         }
       }
    }
    
