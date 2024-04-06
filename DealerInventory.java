@@ -65,7 +65,7 @@ public class DealerInventory {
             System.out.println(e.getMessage());   
          } else {
             System.out.println();
-            System.out.println("ERROR: Invalid year");
+            System.out.println("ERROR: Invalid year format");
          }
 
          return null;
@@ -79,7 +79,7 @@ public class DealerInventory {
             System.out.println(e.getMessage());   
          } else {
             System.out.println();
-            System.out.println("ERROR: Invalid mileage"); 
+            System.out.println("ERROR: Invalid mileage format"); 
          }
 
          return null;
@@ -93,7 +93,7 @@ public class DealerInventory {
             System.out.println(e.getMessage());   
          } else {
             System.out.println();
-            System.out.println("ERROR: Invalid price");
+            System.out.println("ERROR: Invalid price format");
          }
 
          return null;
