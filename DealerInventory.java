@@ -51,28 +51,31 @@ public class DealerInventory {
       String make = s.next();
       System.out.print("Model (e.g., Camry): ");
       String model = s.next();
-      System.out.print("Color (e.g., Blue); ");
+      System.out.print("Color (e.g., Blue): ");
       String color = s.next();
       System.out.print("Year (e.g., 2024): ");
       int year = -1;
       try {
          year = s.nextInt();
       } catch (Exception e) {
-         e.getMessage();
+         System.out.println(e.getMessage());
+         return null;
       }
       System.out.print("Mileage (e.g., 10000): ");
       int mileage = -1;
       try {
          mileage = s.nextInt();
       } catch (Exception e) {
-         e.getMessage();
+         System.out.println(e.getMessage());
+         return null;
       }
       System.out.print("Price (e.g., 20000.00): ");
       BigDecimal price = new BigDecimal(-1);
       try {
          price = s.nextBigDecimal();
       } catch (Exception e) {
-         e.getMessage();
+         System.out.println(e.getMessage());
+         return null;
       }
       
       return addAutomobile(vin, make, model, color, year, mileage, price);
@@ -340,6 +343,8 @@ public class DealerInventory {
       boolean returnedFlag;
       int menuSelector;
       String currentVin;
+      Automobile currentAuto;
+      String fileName;
       Scanner s;
       
       
@@ -353,9 +358,10 @@ public class DealerInventory {
          System.out.println("[1] Add Vehicle");
          System.out.println("[2] Remove Vehicle");
          System.out.println("[3] Update Vehicle Details");
-         System.out.println("[4] Show Vehicle Details");
-         System.out.println("[5] Export Vehicle List");
-         System.out.println("[6] Exit");
+         System.out.println("[4] Show Single Vehicle");
+         System.out.println("[5] Show All Vehicles");
+         System.out.println("[6] Save Vehicle List to File");
+         System.out.println("[7] Exit");
          System.out.println();
          System.out.print("Enter the number of your selection: ");
          menuSelector = s.nextInt();
@@ -389,7 +395,19 @@ public class DealerInventory {
                currentVin  = s.next();
                myInventory.printAutomobile(currentVin);
                break;
-               
+            case 5 :
+               System.out.println("Dealer Inventory Report");
+               System.out.println();
+               for (int i = 0; i < myInventory.dealerInventory.size(); i++) {
+                  currentAuto = myInventory.dealerInventory.get(i);
+                  myInventory.printAutomobile(currentAuto.getVin());
+                  System.out.println();
+               }
+            case 6 :
+               System.out.print("Current working directory: ");
+               System.out.println(System.getProperty("user.dir"));
+               System.out.println();
+               System.out.println("Enter the filename to save (default: inventory.txt): ");
                
             // TODO : Add cases for the rest of the menu options.  Then done?
          } 
